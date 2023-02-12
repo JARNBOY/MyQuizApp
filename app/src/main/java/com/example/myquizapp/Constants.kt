@@ -113,5 +113,6 @@ object Constants {
         return questionsList
     }
     // END
+    var MAX_PROGRESS_VALUE = 10
 }
 // END
