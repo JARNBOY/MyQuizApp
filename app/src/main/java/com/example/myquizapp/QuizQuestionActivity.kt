@@ -4,11 +4,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
-import java.lang.reflect.Type
 
 class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -77,7 +75,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
             tvOptionThree?.text = question.optionThree
             tvOptionFour?.text = question.optionFour
 
-            if (currentPosition == questionsList.size) {
+            if (currentPosition > questionsList.size) {
                 btnSubmit?.text = "FINISH"
             } else {
                 btnSubmit?.text = "SUBMIT"
@@ -117,29 +115,41 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
+        val isAnswerNotSubmitDone : Boolean =  (btnSubmit?.text == "SUBMIT")
         when (view?.id) {
+
             R.id.tv_option_one -> {
-                tvOptionOne?.let {
-                    selectedOptionView(it,1)
+                if  (isAnswerNotSubmitDone) {
+                    tvOptionOne?.let {
+                        selectedOptionView(it,1)
+                    }
                 }
             }
 
             R.id.tv_option_two -> {
-                tvOptionTwo?.let {
-                    selectedOptionView(it,2)
+                if  (isAnswerNotSubmitDone) {
+                    tvOptionTwo?.let {
+                        selectedOptionView(it,2)
+                    }
                 }
             }
 
             R.id.tv_option_three -> {
-                tvOptionThree?.let {
-                    selectedOptionView(it,3)
+                if  (isAnswerNotSubmitDone) {
+                    tvOptionThree?.let {
+                        selectedOptionView(it,3)
+                    }
                 }
+
             }
 
             R.id.tv_option_four -> {
-                tvOptionFour?.let {
-                    selectedOptionView(it,4)
+                if  (isAnswerNotSubmitDone) {
+                    tvOptionFour?.let {
+                        selectedOptionView(it,4)
+                    }
                 }
+
             }
 
             R.id.btn_submit -> {
