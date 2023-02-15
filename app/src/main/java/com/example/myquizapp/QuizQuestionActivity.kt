@@ -1,5 +1,6 @@
 package com.example.myquizapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
     private var mQuestionList: ArrayList<Question>? = null
     private var mSelectedOptionPosition: Int = 0
     private var isSelectedAnswer: Boolean = false
+    private var mUserName: String? = null
+    private var mCorrectAnswer: Int = 0
 
     private var progressBar: ProgressBar? = null
     private var tvProgress: TextView? = null
@@ -29,6 +32,7 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_question)
 
+        setPassingRetriveDataIntent()
         setUpView()
         getQuestions()
         setQuestionList()
@@ -52,6 +56,10 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionThree?.setOnClickListener(this)
         tvOptionFour?.setOnClickListener(this)
         btnSubmit?.setOnClickListener(this)
+    }
+
+    fun setPassingRetriveDataIntent() {
+        mUserName = intent.getStringExtra(Constants.USER_NAME)
     }
 
     fun getQuestions() {
@@ -165,7 +173,13 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
                                     setQuestionList()
                                 }
                                 else -> {
-                                    Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+//                                    Toast.makeText(this,"Congratulation you made to the end",Toast.LENGTH_LONG).show()
+                                    val intent = Intent(this,ResultActivity::class.java)
+                                    intent.putExtra(Constants.USER_NAME, mUserName)
+                                    intent.putExtra(Constants.CORRECT_ANSWER, mCorrectAnswer)
+                                    intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
+                                    startActivity(intent)
+                                    finish()
                                 }
                             }
                         } else {
@@ -178,6 +192,8 @@ class QuizQuestionActivity : AppCompatActivity(), View.OnClickListener {
 
                             if(it.correctAnswer != mSelectedOptionPosition) {
                                 answerView(mSelectedOptionPosition,R.drawable.wrong_option_border_bg)
+                            } else {
+                                mCorrectAnswer++
                             }
                             answerView(it.correctAnswer,R.drawable.correct_option_border_bg)
 
